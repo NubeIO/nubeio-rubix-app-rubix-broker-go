@@ -10,11 +10,11 @@ import (
 
 func main() {
 
-	c, err := config.New().SetPath("./config/config.json").LoadConfig()
+	c, err := config.New().SetPath("").LoadConfig()
 	if err != nil {
 		log.Errorln(err)
 	}
-	port := 1999
+	port := 1883
 	if c != nil {
 		port = c.Listen.Port
 	}
