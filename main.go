@@ -1,20 +1,29 @@
 package main
 
 import (
+	"flag"
 	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/pkg/v1/broker"
 	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/pkg/v1/config"
+	"github.com/NubeIO/nubeio-rubix-lib-helpers-go/pkg/types"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
+	"strconv"
 )
 
 func main() {
 
-	c, err := config.New().SetPath("").LoadConfig()
+	pathArg := flag.String("config", "", "config file path")
+	portArg := flag.String("port", "1883", "mqtt port")
+	isProductionArg := flag.String("prod", "true", "set if app is in production mode")
+	flag.Parse()
+	isProduction, err := strconv.ParseBool(*isProductionArg)
+	log.Println("nubeio.broker.go-main() START-APP PATH", *pathArg, "PORT", *portArg, "isProductionArg", isProduction)
+	c, err := config.New().IsProduction(isProduction).SetPath(*pathArg).LoadConfig()
 	if err != nil {
 		log.Errorln(err)
 	}
-	port := 1883
+	port := types.ToInt(*portArg)
 	if c != nil {
 		port = c.Listen.Port
 	}
