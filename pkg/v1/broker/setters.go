@@ -1,6 +1,7 @@
 package broker
 
 import (
+	"fmt"
 	"github.com/NubeIO/nubeio-rubix-lib-helpers-go/pkg/networking/freeport"
 	log "github.com/sirupsen/logrus"
 )
@@ -24,5 +25,6 @@ func (inst *Broker) SetPort(port int, bumpPort bool) *Broker {
 			inst.Port = port
 		}
 	}
+	fmt.Println(111, inst.Port)
 	return inst
 }

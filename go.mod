@@ -2,11 +2,10 @@ module github.com/NubeIO/nubeio-rubix-app-rubix-broker-go
 
 go 1.18
 
-replace github.com/NubeIO/nubeio-rubix-lib-helpers-go => /home/aidan/code/go/nube/nubeio-rubix-lib-helpers-go
-
+//replace github.com/NubeIO/nubeio-rubix-lib-helpers-go => /home/aidan/code/go/nube/nubeio-rubix-lib-helpers-go
 
 require (
-	github.com/NubeIO/nubeio-rubix-lib-helpers-go v0.2.4
+	github.com/NubeIO/nubeio-rubix-lib-helpers-go v0.2.6
 	github.com/mochi-co/mqtt v1.1.2
 	github.com/sirupsen/logrus v1.8.1
 )
