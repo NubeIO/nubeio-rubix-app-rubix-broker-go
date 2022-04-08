@@ -1,6 +1,14 @@
 # nubeio-rubix-app-rubix-broker-go
-Small MQTT broker in go
 
+## to run
+```
+go run main.go  --config="/test/config" --port=1883 --prod=false
+
+```
+
+
+## Libs used
+Small MQTT broker in go
 
 uses https://github.com/mochi-co/mqtt
 
