@@ -1,10 +1,11 @@
 # nubeio-rubix-app-rubix-broker-go
 
-## to run
-```
-go run main.go  --config="/test/config" --port=1883 --prod=false
+# getting started
+run the bash script to build and start
+`bash build.bash`
 
-```
+# default port
+1883
 
 
 ## Libs used
