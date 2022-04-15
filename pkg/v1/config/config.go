@@ -2,8 +2,12 @@ package config
 
 import (
 	"encoding/json"
-	log "github.com/sirupsen/logrus"
+	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/logger"
 	"os"
+)
+
+var (
+	log = logger.New()
 )
 
 type Configuration struct {
@@ -20,15 +24,11 @@ func New() *Configuration {
 	return c
 }
 
-func (inst *Configuration) LoadConfig() (*Configuration, error) {
-	if inst.getPath() == "" { //if path is nil load dev path
-		inst.SetPath("")
-	}
+func (inst *Configuration) LoadConfig() *Configuration {
 	file, err := os.Open(inst.getPath())
 	if err != nil {
-		log.Errorln("nubeio.broker.go-LoadConfig() can't open config file: ", inst.Path)
-		log.Errorln("nubeio.broker.go-LoadConfig() can't open config err: ", err)
-		return nil, err
+		log.Warn("running without config file")
+		return nil
 	}
 	defer func(file *os.File) {
 		err = file.Close()
@@ -39,9 +39,8 @@ func (inst *Configuration) LoadConfig() (*Configuration, error) {
 	Config := &Configuration{}
 	err = decoder.Decode(Config)
 	if err != nil {
-		log.Errorln("nubeio.broker.go-LoadConfig() can't decode config JSON: ", err)
-		return nil, err
+		log.Error("can't decode config JSON: ", err)
+		return nil
 	}
-	return Config, err
-
+	return Config
 }
