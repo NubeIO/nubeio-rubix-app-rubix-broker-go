@@ -2,12 +2,16 @@ package main
 
 import (
 	"flag"
+	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/logger"
 	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/pkg/v1/broker"
 	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/pkg/v1/config"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"path"
+)
+
+var (
+	log = logger.New()
 )
 
 func main() {
@@ -16,11 +20,12 @@ func main() {
 	port := flag.Int("p", 1883, "MQTT TLS port")
 	prod := flag.Bool("prod", false, "Deployment Mode")
 	flag.Parse()
-	c := config.New().IsProduction(*prod).SetPath(path.Join(*globalDir, *configDir, "config.json")).LoadConfig()
+	configPath := path.Join(*globalDir, *configDir, "config.json")
+	c := config.New().IsProduction(*prod).SetPath(configPath).LoadConfig()
 	if c != nil {
 		port = &c.Listen.Port
 	}
-	log.Info("starting app with configDir: ", *configDir, ", port: ", *port, ", prod: ", *prod)
+	log.Info("starting app with configPath: ", configPath, ", port: ", *port, ", prod: ", *prod)
 	// Create the new MQTT Server.
 	err := broker.New().SetPort(*port).StartBroker()
 	if err != nil {

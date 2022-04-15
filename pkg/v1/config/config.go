@@ -2,8 +2,12 @@ package config
 
 import (
 	"encoding/json"
-	log "github.com/sirupsen/logrus"
+	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/logger"
 	"os"
+)
+
+var (
+	log = logger.New()
 )
 
 type Configuration struct {
