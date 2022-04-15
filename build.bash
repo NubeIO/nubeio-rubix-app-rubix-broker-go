@@ -43,7 +43,7 @@ fi
 cd $dir
 
 if [ ${PRODUCTION} == true ]; then
-  go run app.go -c data/rubix-broker/config/config.json -p=1883 --prod
+  go run app.go -g /data/rubix-broker -c config -p=1883 --prod
 else
-    go run app.go -c config/config.json -p=1883
+    go run app.go -g ./ -c config -p=1883
 fi

@@ -7,31 +7,28 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
+	"path"
 )
 
 func main() {
-
-	pathArg := flag.String("c", "", "config file path")
-	portArg := flag.Int("p", 1883, "mqtt port")
-	isProduction := flag.Bool("prod", false, "set if app is in production mode")
+	globalDir := flag.String("g", "./", "Global Directory")
+	configDir := flag.String("c", "config", "Config Directory")
+	port := flag.Int("p", 1883, "MQTT TLS port")
+	prod := flag.Bool("prod", false, "Deployment Mode")
 	flag.Parse()
-	log.Println("nubeio.broker.go-main() START-APP PATH", *pathArg, "PORT", *portArg, "isProductionArg", *isProduction)
-	c, err := config.New().IsProduction(*isProduction).SetPath(*pathArg).LoadConfig()
-	if err != nil {
-		log.Errorln(err)
-	}
-	port := *portArg
+	c := config.New().IsProduction(*prod).SetPath(path.Join(*globalDir, *configDir, "config.json")).LoadConfig()
 	if c != nil {
-		port = c.Listen.Port
+		port = &c.Listen.Port
 	}
+	log.Info("starting app with configDir: ", *configDir, ", port: ", *port, ", prod: ", *prod)
 	// Create the new MQTT Server.
-	err = broker.New().SetPort(port, true).StartBroker()
+	err := broker.New().SetPort(*port).StartBroker()
 	if err != nil {
-		log.Errorln(err)
+		log.Error(err)
 		return
 	}
 	s := keepRunning()
-	log.Println("nubeio.broker.go-main() signal to close, broker closed.", s)
+	log.Info("signal to close, broker closed by: ", s)
 }
 
 func keepRunning() os.Signal {
