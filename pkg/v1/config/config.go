@@ -14,8 +14,10 @@ type Configuration struct {
 	Path       string
 	Production bool
 	Listen     struct {
-		Address string
-		Port    int
+		Address  string
+		Port     int
+		UseAuth  bool
+		Password string
 	}
 }
 

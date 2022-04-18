@@ -1,8 +1,23 @@
 # nubeio-rubix-app-rubix-broker-go
 
-# getting started
-run the bash script to build and start
-`bash build.bash`
+
+## running
+
+run with config
+```
+go run app.go -g ./
+```
+
+run without config
+```
+go run app.go -port 1882
+```
+
+run with auth
+```
+go run app.go -auth true -pass admin
+```
+
 
 # default port
 1883
