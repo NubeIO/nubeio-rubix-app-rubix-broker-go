@@ -7,9 +7,12 @@ go 1.17
 require (
 	github.com/mochi-co/mqtt v1.1.2
 	github.com/sirupsen/logrus v1.8.1
+	go.etcd.io/bbolt v1.3.6
 )
 
 require (
+	github.com/asdine/storm v2.1.2+incompatible // indirect
+	github.com/asdine/storm/v3 v3.2.1 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/rs/xid v1.3.0 // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect

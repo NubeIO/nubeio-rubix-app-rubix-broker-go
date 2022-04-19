@@ -24,14 +24,16 @@ func main() {
 	flag.Parse()
 	configPath := path.Join(*globalDir, *configDir, "config.json")
 	c := config.New().IsProduction(*prod).SetPath(configPath).LoadConfig()
+	db := true
 	if c != nil {
 		port = &c.Listen.Port
 		auth = &c.Listen.UseAuth
 		pass = &c.Listen.Password
+		db = c.Listen.EnablePersistence
 	}
-	log.Info("starting app with configPath: ", configPath, ", port: ", *port, ", prod: ", *prod, ", auth: ", *auth)
+	log.Info("starting app with configPath: ", configPath, ", port: ", *port, ", prod: ", *prod, ", auth: ", *auth, ", enable persistence: ", db)
 	// Create the new MQTT Server.
-	err := broker.New().SetPort(*port).SetAuth(*auth).SetPassword(*pass).StartBroker()
+	err := broker.New().SetPort(*port).SetAuth(*auth).SetPassword(*pass).SetPersistence(db).StartBroker()
 	if err != nil {
 		log.Error(err)
 		return

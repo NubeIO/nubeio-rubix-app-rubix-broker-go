@@ -14,3 +14,8 @@ func (inst *Broker) SetPassword(auth string) *Broker {
 	inst.Password = auth
 	return inst
 }
+
+func (inst *Broker) SetPersistence(per bool) *Broker {
+	inst.EnablePersistence = per
+	return inst
+}

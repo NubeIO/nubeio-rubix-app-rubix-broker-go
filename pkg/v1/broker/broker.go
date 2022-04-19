@@ -4,12 +4,16 @@ import (
 	"fmt"
 	mqtt "github.com/mochi-co/mqtt/server"
 	"github.com/mochi-co/mqtt/server/listeners"
+	"github.com/mochi-co/mqtt/server/persistence/bolt"
+	"go.etcd.io/bbolt"
+	"time"
 )
 
 type Broker struct {
-	Port     int    `json:"port"`
-	Auth     bool   `json:"auth"`
-	Password string `json:"password"`
+	Port              int    `json:"port"`
+	Auth              bool   `json:"auth"`
+	Password          string `json:"password"`
+	EnablePersistence bool   `json:"enable_persistence"`
 }
 
 // New returns a new instance of the nube common apis
@@ -20,11 +24,16 @@ func New() *Broker {
 
 func (inst *Broker) StartBroker() error {
 	server := mqtt.New()
+	var err error
+	if inst.getPersistence() {
+		err = server.AddStore(bolt.New("mqtt.db", &bbolt.Options{
+			Timeout: 500 * time.Millisecond,
+		}))
+	}
 	port := fmt.Sprintf(":%d", inst.getPort())
 	// Create a TCP listener on a standard port.
 	tcp := listeners.NewTCP("t1", port)
 	// Add the listener to the server with default options (nil).
-	var err error
 	if inst.getAuth() {
 		pass := inst.getPassword()
 		err = server.AddListener(tcp, &listeners.Config{
