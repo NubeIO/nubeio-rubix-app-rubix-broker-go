@@ -15,7 +15,7 @@ go run app.go -port 1882
 
 run with auth
 ```
-go run app.go -auth true -pass admin
+go run app.go -auth=true -pass admin
 ```
 
 
