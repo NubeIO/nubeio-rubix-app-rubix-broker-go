@@ -14,6 +14,7 @@ type Broker struct {
 	Auth              bool   `json:"auth"`
 	Password          string `json:"password"`
 	EnablePersistence bool   `json:"enable_persistence"`
+	AbsoluteDbPath    string `json:"absolute_db_path"`
 }
 
 // New returns a new instance of the nube common apis
@@ -26,7 +27,7 @@ func (inst *Broker) StartBroker() error {
 	server := mqtt.New()
 	var err error
 	if inst.getPersistence() {
-		err = server.AddStore(bolt.New("mqtt.db", &bbolt.Options{
+		err = server.AddStore(bolt.New(inst.AbsoluteDbPath, &bbolt.Options{
 			Timeout: 500 * time.Millisecond,
 		}))
 	}
