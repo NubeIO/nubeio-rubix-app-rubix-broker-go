@@ -2,45 +2,44 @@ package broker
 
 import (
 	"fmt"
+	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/config"
+	"github.com/NubeIO/nubeio-rubix-app-rubix-broker-go/logger"
 	mqtt "github.com/mochi-co/mqtt/server"
 	"github.com/mochi-co/mqtt/server/listeners"
 	"github.com/mochi-co/mqtt/server/persistence/bolt"
 	"go.etcd.io/bbolt"
+	"path"
 	"time"
 )
 
-type Broker struct {
-	Port              int    `json:"port"`
-	Auth              bool   `json:"auth"`
-	Password          string `json:"password"`
-	EnablePersistence bool   `json:"enable_persistence"`
-	AbsoluteDbPath    string `json:"absolute_db_path"`
-}
+var (
+	log = logger.New()
+)
 
-// New returns a new instance of the nube common apis
-func New() *Broker {
-	bc := &Broker{}
-	return bc
-}
-
-func (inst *Broker) StartBroker() error {
+func StartBroker(conf *config.Configuration) error {
+	configPath := path.Join(conf.GetAbsConfigDir(), "config.yml")
+	dataPath := path.Join(conf.GetAbsDataDir(), conf.Storage.DB)
+	log.Info("starting app with config_path: ", configPath, ", data_path: ", dataPath,
+		", port: ", conf.Server.Port, ", prod: ", conf.Prod, ", auth: ", conf.Credential.Auth,
+		", enable_persistence: ", conf.Storage.EnablePersistence)
 	server := mqtt.New()
 	var err error
-	if inst.getPersistence() {
-		err = server.AddStore(bolt.New(inst.AbsoluteDbPath, &bbolt.Options{
+	if conf.Storage.EnablePersistence {
+		err = server.AddStore(bolt.New(dataPath, &bbolt.Options{
 			Timeout: 500 * time.Millisecond,
 		}))
 	}
-	port := fmt.Sprintf(":%d", inst.getPort())
+	port := fmt.Sprintf(":%d", conf.Server.Port)
 	// Create a TCP listener on a standard port.
 	tcp := listeners.NewTCP("t1", port)
 	// Add the listener to the server with default options (nil).
-	if inst.getAuth() {
-		pass := inst.getPassword()
+	if conf.Credential.Auth {
+		username := conf.Credential.Username
+		password := conf.Credential.Password
 		err = server.AddListener(tcp, &listeners.Config{
 			Auth: &Auth{
 				Users: map[string]string{
-					"admin": pass,
+					username: password,
 				},
 			},
 		})
