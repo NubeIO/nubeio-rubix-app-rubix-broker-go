@@ -3,8 +3,8 @@ server:
   port: 1883
 credential:
   auth: false
-  username: "admin"
-  password: "test_password"
+  username: "username"
+  password: "password"
 storage:
   enablepersistence: true
-  DB: "mqtt.db"
+  db: "mqtt.db"
