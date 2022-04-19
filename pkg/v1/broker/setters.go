@@ -19,3 +19,8 @@ func (inst *Broker) SetPersistence(per bool) *Broker {
 	inst.EnablePersistence = per
 	return inst
 }
+
+func (inst *Broker) SetAbsoluteDbPath(absoluteDbPath string) *Broker {
+	inst.AbsoluteDbPath = absoluteDbPath
+	return inst
+}

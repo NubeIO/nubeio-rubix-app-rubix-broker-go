@@ -1,9 +1,10 @@
 {
-  "listen": {
-    "address": "0.0.0.0",
-    "port": 1883,
+  "Listen": {
+    "Address": "0.0.0.0",
+    "Port": 1883,
     "UseAuth": false,
     "Password": "",
-    "EnablePersistence": true
+    "EnablePersistence": true,
+    "DB": "mqtt.db"
   }
 }

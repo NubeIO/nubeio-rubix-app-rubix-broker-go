@@ -15,7 +15,7 @@ go run app.go -port 1882
 
 run with auth
 ```
-go run app.go -auth=true -pass admin
+go run app.go -auth=true -password admin
 ```
 
 
@@ -34,6 +34,7 @@ also tested and found works
 https://github.com/fhmq/hmq
 
 example of hmq
+
 ```go
 func (i *Instance) enableBroker() {
 	port := "1883"

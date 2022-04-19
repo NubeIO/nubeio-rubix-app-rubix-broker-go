@@ -19,6 +19,7 @@ type Configuration struct {
 		UseAuth           bool
 		Password          string
 		EnablePersistence bool
+		DB                string
 	}
 }
 
