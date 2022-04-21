@@ -21,10 +21,10 @@ func StartBroker(conf *config.Configuration) error {
 	dataPath := path.Join(conf.GetAbsDataDir(), conf.Storage.DB)
 	log.Info("starting app with config_path: ", configPath, ", data_path: ", dataPath,
 		", port: ", conf.Server.Port, ", prod: ", conf.Prod, ", auth: ", conf.Credential.Auth,
-		", enable_persistence: ", conf.Storage.EnablePersistence)
+		", enable_persistence: ", *conf.Storage.EnablePersistence)
 	server := mqtt.New()
 	var err error
-	if conf.Storage.EnablePersistence {
+	if *conf.Storage.EnablePersistence {
 		err = server.AddStore(bolt.New(dataPath, &bbolt.Options{
 			Timeout: 500 * time.Millisecond,
 		}))
