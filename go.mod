@@ -5,7 +5,7 @@ go 1.17
 //replace github.com/NubeIO/nubeio-rubix-lib-helpers-go => /home/aidan/code/go/nube/nubeio-rubix-lib-helpers-go
 
 require (
-	github.com/NubeDev/configor v0.0.2
+	github.com/NubeIO/configor v0.0.3
 	github.com/mochi-co/mqtt v1.1.2
 	github.com/sirupsen/logrus v1.8.1
 	go.etcd.io/bbolt v1.3.6

@@ -2,7 +2,7 @@ package config
 
 import (
 	"flag"
-	"github.com/NubeDev/configor"
+	"github.com/NubeIO/configor"
 	"path"
 )
 
@@ -17,7 +17,7 @@ type Configuration struct {
 		Password string `default:"test_admin"`
 	}
 	Storage struct {
-		EnablePersistence bool   `default:"true"`
+		EnablePersistence *bool  `default:"true"`
 		DB                string `default:"mqtt.db"`
 	}
 	Location struct {
