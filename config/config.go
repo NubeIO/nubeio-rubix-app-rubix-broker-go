@@ -46,7 +46,8 @@ func CreateApp() *Configuration {
 
 func (conf *Configuration) Parse() *Configuration {
 	port := flag.Int("p", 1883, "Port")
-	globalDir := flag.String("g", "./", "Global Directory")
+	rootDir := flag.String("r", "./", "Root Directory")
+	appDir := flag.String("a", "./", "App Directory")
 	dataDir := flag.String("d", "data", "Data Directory")
 	configDir := flag.String("c", "config", "Config Directory")
 	prod := flag.Bool("prod", false, "Deployment Mode")
@@ -54,7 +55,7 @@ func (conf *Configuration) Parse() *Configuration {
 	password := flag.String("password", "test_password", "auth password")
 	flag.Parse()
 	conf.Server.Port = *port
-	conf.Location.GlobalDir = *globalDir
+	conf.Location.GlobalDir = path.Join(*rootDir, *appDir)
 	conf.Location.DataDir = *dataDir
 	conf.Location.ConfigDir = *configDir
 	conf.Prod = *prod
